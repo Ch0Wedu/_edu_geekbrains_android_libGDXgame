@@ -6,7 +6,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
+import ru.syskaev.edu.geekbrains.android.libgdxgame.utils.ExitSprite;
 
 
 public class MainScreen extends BaseScreen {
@@ -17,9 +20,13 @@ public class MainScreen extends BaseScreen {
     private SpriteBatch batch;
     private int defaultScreenWidth;
     private int defaultScreenHeight;
+
     private Texture pacmanImg;
     private Vector2 pacmanPosition;
     private Vector2 pacmanDestination;
+
+    private Texture exitImg;
+    private ExitSprite exitSprite;
 
 
     public MainScreen(Game game) {
@@ -32,14 +39,19 @@ public class MainScreen extends BaseScreen {
         batch = new SpriteBatch();
         defaultScreenWidth = Gdx.graphics.getWidth();
         defaultScreenHeight = Gdx.graphics.getHeight();
+
         pacmanImg = new Texture("pacman.png");
         pacmanPosition = new Vector2(defaultScreenWidth / 2,defaultScreenHeight / 2);
         pacmanDestination = pacmanPosition;
+
+        exitImg = new Texture("exit.png");
+        exitSprite = new ExitSprite(new TextureRegion(exitImg));
     }
 
     private void calcLogic() {
         if(Gdx.input.isKeyPressed(Input.Keys.ANY_KEY))
             keyPressed();
+
         Vector2 dVector = pacmanDestination.cpy().sub(pacmanPosition);
         double dVectorLength = dVector.len();
         if(dVectorLength < PACMAN_VELOCITY) pacmanPosition = pacmanDestination;
@@ -67,6 +79,7 @@ public class MainScreen extends BaseScreen {
         batch.draw(pacmanImg,
                 pacmanPosition.x - pacmanImg.getWidth() / 2,
                 pacmanPosition.y - pacmanImg.getHeight() / 2);
+        exitSprite.draw(batch);
         batch.end();
     }
 
@@ -80,8 +93,17 @@ public class MainScreen extends BaseScreen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touchPosition = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
+        exitSprite.checkTouch(touchPosition);
         pacmanDestination = touchPosition;
         return super.touchDown(screenX, screenY, pointer, button);
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        super.keyDown(keycode);
+        if(keycode == Input.Keys.ESCAPE)
+            Gdx.app.exit();
+        return false;
     }
 
 }
