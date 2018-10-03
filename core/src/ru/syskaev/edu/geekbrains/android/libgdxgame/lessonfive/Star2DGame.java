@@ -1,4 +1,4 @@
-package ru.syskaev.edu.geekbrains.android.libgdxgame.lesssonfour;
+package ru.syskaev.edu.geekbrains.android.libgdxgame.lessonfive;
 
 import com.badlogic.gdx.Game;
 
