@@ -1,6 +1,8 @@
 package ru.syskaev.edu.geekbrains.android.libgdxgame.lessonfive.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -25,6 +27,7 @@ public class MainShip extends Sprite {
 
     private BulletPool bulletPool;
     private TextureRegion bulletRegion;
+    private Sound shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shoot.mp3"));
 
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
@@ -148,6 +151,11 @@ public class MainShip extends Sprite {
     public void shoot() {
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, bulletRegion, pos, bulletV, 0.01f, worldBounds, 1);
+        shootSound.play();
+    }
+
+    public void dispose() {
+        shootSound.dispose();
     }
 
 }
