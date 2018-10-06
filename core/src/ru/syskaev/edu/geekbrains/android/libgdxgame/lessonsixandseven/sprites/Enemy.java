@@ -20,9 +20,10 @@ public class Enemy extends Ship {
     private Vector2 descentV = new Vector2(0, -0.15f);
 
     private State state;
+    private String type;
 
-    public Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound, MainShip mainShip) {
-        super(bulletPool, explosionPool, shootSound);
+    public Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound, Sound damageSound, MainShip mainShip) {
+        super(bulletPool, explosionPool, shootSound, damageSound);
         this.mainShip = mainShip;
         this.v.set(v0);
     }
@@ -48,11 +49,14 @@ public class Enemy extends Ship {
                     boom();
                     destroy();
                 }
+                if (getRight() < worldBounds.getLeft())
+                    destroy();
                 break;
         }
     }
 
     public void set(
+            String type,
             TextureRegion[] regions,
             Vector2 v0,
             TextureRegion bulletRegion,
@@ -64,6 +68,7 @@ public class Enemy extends Ship {
             int hp,
             Rect worldBounds
     ) {
+        this.type = type;
         this.regions = regions;
         this.v0.set(v0);
         this.bulletRegion = bulletRegion;
@@ -77,6 +82,10 @@ public class Enemy extends Ship {
         v.set(descentV);
         state = State.DESCENT;
         this.worldBounds = worldBounds;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public boolean isBulletCollision(Rect bullet) {

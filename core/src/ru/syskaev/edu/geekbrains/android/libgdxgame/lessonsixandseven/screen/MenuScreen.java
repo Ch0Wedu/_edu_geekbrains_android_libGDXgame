@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.syskaev.edu.geekbrains.android.libgdxgame.lessonsixandseven.base.ActionListener;
+import ru.syskaev.edu.geekbrains.android.libgdxgame.lessonsixandseven.base.Sprite;
 import ru.syskaev.edu.geekbrains.android.libgdxgame.lessonsixandseven.sprites.Background;
 import ru.syskaev.edu.geekbrains.android.libgdxgame.lessonsixandseven.base.Base2DScreen;
 import ru.syskaev.edu.geekbrains.android.libgdxgame.lessonsixandseven.math.Rect;
@@ -23,7 +24,9 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
 
     Background background;
     Texture bg;
+    Sprite gb;
     TextureAtlas atlas;
+    TextureAtlas altAtlas;
 
     ButtonExit buttonExit;
     ButtonPlay buttonPlay;
@@ -40,6 +43,10 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
         bg = new Texture("bg.png");
         background = new Background(new TextureRegion(bg));
         atlas = new TextureAtlas("textures/menuAtlas.tpack");
+        altAtlas = new TextureAtlas("textures/altAtlas.tpack");
+        gb = new Sprite(altAtlas.findRegion("gb"));
+        gb.setHeightProportion(0.5f);
+        gb.setAngle(-25);
         buttonExit = new ButtonExit(atlas, this);
         buttonPlay = new ButtonPlay(atlas, this);
         star = new Star[STAR_COUNT];
@@ -72,6 +79,7 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
         }
         buttonExit.draw(batch);
         buttonPlay.draw(batch);
+        gb.draw(batch);
         batch.end();
     }
 

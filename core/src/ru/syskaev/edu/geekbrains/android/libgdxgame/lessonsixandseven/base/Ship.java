@@ -1,7 +1,6 @@
 package ru.syskaev.edu.geekbrains.android.libgdxgame.lessonsixandseven.base;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -25,6 +24,7 @@ public class Ship extends Sprite {
     protected int bulletDamage;
 
     private Sound shootSound;
+    private Sound damageSound;
 
     protected float reloadInterval;
     protected float reloadTimer;
@@ -34,18 +34,20 @@ public class Ship extends Sprite {
 
     protected int hp;
 
-    public Ship(TextureRegion region, int rows, int cols, int frames, BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound) {
+    public Ship(TextureRegion region, int rows, int cols, int frames, BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound, Sound damageSound) {
         super(region, rows, cols, frames);
         this.bulletPool = bulletPool;
         this.shootSound = shootSound;
+        this.damageSound = damageSound;
         this.bulletHeight = 0.01f;
         this.bulletDamage = 1;
         this.explosionPool = explosionPool;
     }
 
-    public Ship(BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound) {
+    public Ship(BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound, Sound damageSound) {
         this.bulletPool = bulletPool;
         this.shootSound = shootSound;
+        this.damageSound = damageSound;
         this.explosionPool = explosionPool;
     }
 
@@ -88,6 +90,7 @@ public class Ship extends Sprite {
             boom();
             destroy();
         }
+        damageSound.play();
     }
 
     public int getBulletDamage() {
