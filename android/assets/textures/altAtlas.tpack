@@ -31,3 +31,10 @@ gb
   orig: 200, 200
   offset: 0, 0
   index: 0
+aid
+  rotate: false
+  xy: 1984, 1783
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 0
